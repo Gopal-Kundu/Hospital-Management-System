@@ -59,14 +59,16 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-          <TrendingUp className="w-8 h-8 text-red-500" />
-          Hospital Administration Portal
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex flex-col sm:flex-row sm:items-center gap-2">
+          <span className="flex items-center gap-2">
+            <TrendingUp className="w-8 h-8 text-red-500 flex-shrink-0" />
+            Hospital Administration Portal
+          </span>
         </h1>
-        <p className="text-slate-500 mt-1">
+        <p className="text-slate-500 text-sm mt-2">
           Monitor clinic stats, manage patient profiles, schedule doctor rosters, and process active appointments.
         </p>
       </div>
@@ -82,7 +84,7 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Total Patients */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full blur-xl group-hover:scale-150 transition duration-500"></div>
               <div className="flex items-center justify-between">
                 <div className="bg-red-50 p-3 rounded-2xl border border-red-100 text-red-500">
@@ -96,7 +98,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Total Doctors */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full blur-xl group-hover:scale-150 transition duration-500"></div>
               <div className="flex items-center justify-between">
                 <div className="bg-red-50 p-3 rounded-2xl border border-red-100 text-red-500">
@@ -110,7 +112,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Total Appointments */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full blur-xl group-hover:scale-150 transition duration-500"></div>
               <div className="flex items-center justify-between">
                 <div className="bg-red-50 p-3 rounded-2xl border border-red-100 text-red-500">
@@ -124,7 +126,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Pending Appointments */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 hover:border-slate-300 transition duration-300 relative group overflow-hidden shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="bg-amber-50 p-3 rounded-2xl border border-amber-100 text-amber-600">
                   <Clock className="w-6 h-6" />
@@ -147,7 +149,7 @@ const AdminDashboard = () => {
             {/* Manage Doctors Link */}
             <Link 
               to="/manage-doctors" 
-              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
+              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-4 sm:p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
             >
               <div className="flex items-center gap-4">
                 <div className="bg-red-50 p-3.5 rounded-2xl text-red-500 group-hover:bg-red-600 group-hover:text-white transition duration-300">
@@ -164,7 +166,7 @@ const AdminDashboard = () => {
             {/* Manage Patients Link */}
             <Link 
               to="/manage-patients" 
-              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
+              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-4 sm:p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
             >
               <div className="flex items-center gap-4">
                 <div className="bg-red-50 p-3.5 rounded-2xl text-red-500 group-hover:bg-red-600 group-hover:text-white transition duration-300">
@@ -181,7 +183,7 @@ const AdminDashboard = () => {
             {/* Manage Appointments Link */}
             <Link 
               to="/manage-appointments" 
-              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
+              className="bg-white border border-slate-200 hover:border-red-500/50 rounded-3xl p-4 sm:p-6 flex items-center justify-between group transition duration-300 hover:scale-[1.01] shadow-sm hover:shadow-md"
             >
               <div className="flex items-center gap-4">
                 <div className="bg-red-50 p-3.5 rounded-2xl text-red-500 group-hover:bg-red-600 group-hover:text-white transition duration-300">
@@ -198,7 +200,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Recent Appointments Table */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+          <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 shadow-sm overflow-hidden">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-red-500" />
@@ -219,7 +221,7 @@ const AdminDashboard = () => {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-655">
+                <table className="w-full min-w-[700px] text-left text-sm text-slate-655">
                   <thead>
                     <tr className="border-b border-slate-100 text-slate-400 text-xs font-semibold uppercase tracking-wider">
                       <th className="pb-3 pt-2">Patient</th>
