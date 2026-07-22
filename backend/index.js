@@ -3,6 +3,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectDB from './db.js';
+import authRoutes from './routes/authRoutes.js';
+import doctorRoutes from './routes/doctorRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -20,12 +24,17 @@ app.use(
   })
 );
 
-// Basic Health Check Route
+app.use('/api/auth', authRoutes);
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/admin', adminRoutes);
+
+
 app.get('/', (req, res) => {
   res.json({ message: 'Hospital Management System API is running successfully' });
 });
 
-// Connect DB and Start Server
+
 const startServer = async () => {
   try {
     await connectDB();
@@ -38,3 +47,4 @@ const startServer = async () => {
 };
 
 startServer();
+

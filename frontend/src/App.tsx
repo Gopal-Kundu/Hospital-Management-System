@@ -1,21 +1,111 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
+import { useAuth } from './hooks/useAuth';
+import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import PatientDashboard from './pages/PatientDashboard';
+import BookAppointment from './pages/BookAppointment';
+import AdminDashboard from './pages/AdminDashboard';
+import ManageDoctors from './pages/ManageDoctors';
+import ManagePatients from './pages/ManagePatients';
+import ManageAppointments from './pages/ManageAppointments';
+
+import LandingPage from './pages/LandingPage';
+
+const AuthRedirect = ({ children }) => {
+  const { user } = useSelector((state: any) => state.auth);
+  
+  if (user) {
+    return <Navigate to={user.role === 'admin' ? '/admin-dashboard' : '/patient-dashboard'} replace />;
+  }
+  
+  return <>{children}</>;
+};
 
 function App() {
+  const { fetchCurrentUser } = useAuth();
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center font-sans p-6">
-      <div className="bg-slate-900/80 border border-slate-800 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
-        <h1 className="text-3xl font-extrabold text-indigo-400 mb-3 tracking-tight">
-          Hospital Management System
-        </h1>
-        <p className="text-slate-400 text-sm leading-relaxed mb-6">
-          Basic server and UI template configured with Vite, React, and Tailwind CSS v4.
-        </p>
-        <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1.5 rounded-full">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Frontend Ready</span>
+    <Router>
+      <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-red-500 selection:text-white flex flex-col justify-between">
+        <div className="flex-grow flex flex-col">
+          <Navbar />
+          
+          <main className="flex-grow flex flex-col justify-center">
+            <Routes>
+              {/* Root */}
+              <Route path="/" element={<LandingPage />} />
+
+              {/* Public/Auth Routes */}
+              <Route 
+                path="/login" 
+                element = {
+                  <AuthRedirect>
+                    <Login />
+                  </AuthRedirect>
+                } 
+              />
+              <Route 
+                path="/register" 
+                element = {
+                  <AuthRedirect>
+                    <Register />
+                  </AuthRedirect>
+                } 
+              />
+
+              {/* Patient Protected Routes */}
+              <Route element={<ProtectedRoute allowedRoles={['patient']} />}>
+                <Route path="/patient-dashboard" element={<PatientDashboard />} />
+                <Route path="/book-appointment" element={<BookAppointment />} />
+              </Route>
+
+              {/* Admin Protected Routes */}
+              <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/manage-doctors" element={<ManageDoctors />} />
+                <Route path="/manage-patients" element={<ManagePatients />} />
+                <Route path="/manage-appointments" element={<ManageAppointments />} />
+              </Route>
+
+              {/* Catch-all redirect */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
         </div>
+
+        <Footer />
+
+        <Toaster 
+          position="top-right" 
+          toastOptions={{
+            className: 'bg-white border border-slate-200 text-slate-800 rounded-2xl text-sm font-semibold shadow-lg',
+            duration: 3000,
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#ffffff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#ffffff',
+              },
+            },
+          }} 
+        />
       </div>
-    </div>
+    </Router>
   );
 }
 
