@@ -9,7 +9,7 @@
 
 The **Hospital Management System (HMS)** is a full-stack web application designed to simplify hospital operations by providing a secure and user-friendly platform for both **Patients** and **Administrators**.
 
-The system allows patients to register, book appointments, and manage their medical visits, while administrators can efficiently manage doctors, patients, and appointments from a centralized dashboard.
+The system allows patients to register, verify their accounts via a 4-digit OTP, book appointments, and manage their medical visits, while administrators can efficiently manage doctors, patients, and appointments from a centralized dashboard.
 
 Built using the **MERN Stack**, the application follows modern development practices with secure authentication, role-based authorization, responsive UI, and clean architecture.
 
@@ -21,6 +21,7 @@ Built using the **MERN Stack**, the application follows modern development pract
 
 - Secure Registration & Login
 - JWT Authentication using HttpOnly Cookies
+- **4-Digit OTP Account Verification (using EmailJS)**
 - View Personal Dashboard
 - Book Doctor Appointments
 - Select Doctor & Department
@@ -77,6 +78,8 @@ Built using the **MERN Stack**, the application follows modern development pract
 - JWT Authentication
 - HttpOnly Cookie Sessions
 - Password Hashing using bcrypt
+- **4-Digit OTP Verification for New Accounts**
+- **Email Validation using `validator` NPM package**
 - Protected Routes
 - Role-Based Authorization
 - Secure Backend APIs
@@ -115,16 +118,18 @@ Built using the **MERN Stack**, the application follows modern development pract
 - MongoDB
 - Mongoose
 
-## Authentication
+## Authentication & Validation
 
 - JWT
 - Cookies
 - bcrypt
+- **validator** (NPM package)
 
-## File Upload
+## File Upload & Emailing
 
 - Multer
 - Cloudinary
+- **EmailJS** (`@emailjs/nodejs`)
 
 ---
 
@@ -172,6 +177,7 @@ Hospital-Management-System/
 - Node.js (v18 or later)
 - MongoDB Atlas
 - Cloudinary Account
+- EmailJS Account
 - Git
 
 ---
@@ -206,6 +212,13 @@ CLIENT_URL=http://localhost:5173
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+
+EMAILJS_SERVICE_ID=service_j185gcr
+EMAILJS_TEMPLATE_ID=template_bh6y4ah
+EMAILJS_PUBLIC_KEY=55GjyR5HxwazD17Dl
+VITE_EMAILJS_SERVICE_ID=service_j185gcr
+VITE_EMAILJS_TEMPLATE_ID=template_bh6y4ah
+VITE_EMAILJS_PUBLIC_KEY=55GjyR5HxwazD17Dl
 ```
 
 Start Backend
@@ -258,7 +271,16 @@ http://localhost:5000
 # 🔄 Application Flow
 
 ```text
-Patient Register/Login
+Patient Register
+          │
+          ▼
+Generate 4-Digit OTP & Send via EmailJS
+          │
+          ▼
+Verify OTP Page (Input Code)
+          │
+          ▼
+Account Activated & Logged In
           │
           ▼
 Book Appointment
@@ -284,6 +306,7 @@ Complete Visit
 - Home Page
 - Login
 - Register
+- Verify OTP
 - Patient Dashboard
 - Admin Dashboard
 - Doctor Management

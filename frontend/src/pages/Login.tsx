@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Mail, Lock, LogIn, Activity, AlertCircle, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Login = () => {
   const { loginUser } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,9 +28,14 @@ const Login = () => {
       if (result.success) {
         
       } else {
-        const errorMessage = result.error || 'Login failed';
-        setError(errorMessage);
-        toast.error(errorMessage);
+        if (result.requiresOtp) {
+          toast.success('Verification code sent! Please verify your account.');
+          navigate(`/verify-otp?email=${encodeURIComponent(result.email || email)}`);
+        } else {
+          const errorMessage = result.error || 'Login failed';
+          setError(errorMessage);
+          toast.error(errorMessage);
+        }
       }
     } catch (err) {
       setError('Login failed');

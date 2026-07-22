@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { User as UserIcon, Mail, Lock, UserPlus, Activity, AlertCircle, ShieldAlert, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Register = () => {
   const { registerUser } = useAuth();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,7 +28,12 @@ const Register = () => {
     try {
       const result = await registerUser({ name, email, password, role });
       if (result.success) {
-        toast.success('Registration successful! Welcome.');
+        if (result.requiresOtp) {
+          toast.success('Registration successful! Verification code sent.');
+          navigate(`/verify-otp?email=${encodeURIComponent(result.email || email)}`);
+        } else {
+          toast.success('Registration successful! Welcome.');
+        }
       } else {
         const errorMessage = result.error || 'Registration failed';
         setError(errorMessage);

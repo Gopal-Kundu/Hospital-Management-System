@@ -53,6 +53,15 @@ export const useAuth = () => {
         return { success: false, error: errorMsg };
       }
     } catch (error: any) {
+      if (error.response?.data?.requiresOtp) {
+        dispatch(loginFailure('OTP required'));
+        return { 
+          success: false, 
+          requiresOtp: true, 
+          email: error.response.data.email, 
+          error: error.response.data.message 
+        };
+      }
       const errorMsg = error.response?.data?.message || 'Login failed';
       dispatch(loginFailure(errorMsg));
       return { success: false, error: errorMsg };
@@ -67,6 +76,11 @@ export const useAuth = () => {
         withCredentials: true,
       });
       if (response.data.success) {
+        if (response.data.requiresOtp) {
+          // Do not log in yet, return requiresOtp
+          dispatch(registerFailure('Verification required'));
+          return { success: true, requiresOtp: true, email: response.data.email };
+        }
         const result = await loginUser({ email, password });
         if (result.success) {
           dispatch(registerSuccess(result.user));
@@ -83,6 +97,42 @@ export const useAuth = () => {
     } catch (error: any) {
       const errorMsg = error.response?.data?.message || 'Registration failed';
       dispatch(registerFailure(errorMsg));
+      return { success: false, error: errorMsg };
+    }
+  };
+
+  const verifyOtpUser = async (email: string, otp: string) => {
+    dispatch(loginStart());
+    try {
+      const response = await axios.post(`${baseURL}/auth/verify-otp`, { email, otp }, {
+        withCredentials: true,
+      });
+      if (response.data.success) {
+        dispatch(loginSuccess(response.data.user));
+        return { success: true, user: response.data.user };
+      } else {
+        dispatch(loginFailure(response.data.message || 'OTP verification failed'));
+        return { success: false, error: response.data.message || 'OTP verification failed' };
+      }
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || 'OTP verification failed';
+      dispatch(loginFailure(errorMsg));
+      return { success: false, error: errorMsg };
+    }
+  };
+
+  const resendOtpUser = async (email: string) => {
+    try {
+      const response = await axios.post(`${baseURL}/auth/resend-otp`, { email }, {
+        withCredentials: true,
+      });
+      if (response.data.success) {
+        return { success: true, message: response.data.message };
+      } else {
+        return { success: false, error: response.data.message || 'Failed to resend OTP' };
+      }
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || 'Failed to resend OTP';
       return { success: false, error: errorMsg };
     }
   };
@@ -125,6 +175,8 @@ export const useAuth = () => {
     fetchCurrentUser,
     loginUser,
     registerUser,
+    verifyOtpUser,
+    resendOtpUser,
     logoutUser,
     updateProfilePicture
   };

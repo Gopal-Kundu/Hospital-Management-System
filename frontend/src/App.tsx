@@ -16,6 +16,7 @@ import ManagePatients from './pages/ManagePatients';
 import ManageAppointments from './pages/ManageAppointments';
 
 import LandingPage from './pages/LandingPage';
+import VerifyOtp from './pages/VerifyOtp';
 
 const AuthRedirect = ({ children }) => {
   const { user } = useSelector((state: any) => state.auth);
@@ -59,6 +60,14 @@ function App() {
                 element = {
                   <AuthRedirect>
                     <Register />
+                  </AuthRedirect>
+                } 
+              />
+              <Route 
+                path="/verify-otp" 
+                element = {
+                  <AuthRedirect>
+                    <VerifyOtp />
                   </AuthRedirect>
                 } 
               />
