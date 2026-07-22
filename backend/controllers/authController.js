@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { uploadToCloudinary } from '../utils/cloudinary.js';
 import emailjs from '@emailjs/nodejs';
+import validator from 'validator';
 
 const sendOtpEmail = async (name, email, otp) => {
   try {
@@ -19,9 +20,9 @@ const sendOtpEmail = async (name, email, otp) => {
       serviceId,
       templateId,
       {
-        to_name: name,
-        to_email: email,
-        otp_code: otp,
+        user_name: name,
+        email: email,
+        otp: otp,
       },
       options
     );
@@ -37,6 +38,19 @@ export const register = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
+    // Validate strong password
+    if (!validator.isStrongPassword(password, {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1
+    })) {
+      return res.status(400).json({ 
+        message: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character' 
+      });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists with this email' });
@@ -47,7 +61,7 @@ export const register = async (req, res) => {
 
     // Generate 4-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
 
     const user = await User.create({
       name,
@@ -159,7 +173,7 @@ export const resendOtp = async (req, res) => {
 
     // Generate new 4-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
 
     user.otp = otp;
     user.otpExpires = otpExpires;
@@ -201,7 +215,7 @@ export const login = async (req, res) => {
       // Regenerate OTP and send it
       const otp = Math.floor(1000 + Math.random() * 9000).toString();
       user.otp = otp;
-      user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+      user.otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
       await user.save();
       sendOtpEmail(user.name, user.email, otp);
 
