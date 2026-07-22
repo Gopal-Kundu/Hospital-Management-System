@@ -6,6 +6,7 @@ const authSlice = createSlice({
     user: null,
     loading: true,
     error: null,
+    hideRoleSelection: false,
   },
   reducers: {
     fetchStart: (state) => {
@@ -57,6 +58,9 @@ const authSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    setHideRoleSelection: (state, action) => {
+      state.hideRoleSelection = action.payload;
     }
   }
 });
@@ -73,7 +77,8 @@ export const {
   registerFailure,
   logoutSuccess,
   updateProfilePictureSuccess,
-  clearError
+  clearError,
+  setHideRoleSelection
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useAuth } from '../hooks/useAuth';
+import { setHideRoleSelection } from '../redux/authSlice';
 import { 
   Activity, 
   LogOut, 
@@ -20,6 +21,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     setIsMenuOpen(false);
@@ -134,6 +136,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/register"
+                onClick={() => dispatch(setHideRoleSelection(false))}
                 className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl transition duration-300 shadow-md shadow-red-600/10"
               >
                 Get Started
@@ -245,7 +248,10 @@ const Navbar = () => {
                 <Link
                   to="/register"
                   className="w-full py-3 text-center text-base font-bold text-white bg-red-600 hover:bg-red-500 rounded-xl transition duration-305 shadow-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    dispatch(setHideRoleSelection(false));
+                  }}
                 >
                   Get Started
                 </Link>

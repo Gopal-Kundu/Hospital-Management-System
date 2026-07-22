@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useAuth } from '../hooks/useAuth';
 import { User as UserIcon, Mail, Lock, UserPlus, Activity, AlertCircle, ShieldAlert, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -7,6 +8,7 @@ import toast from 'react-hot-toast';
 const Register = () => {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
+  const { hideRoleSelection } = useSelector((state: any) => state.auth);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -131,33 +133,35 @@ const Register = () => {
           </div>
 
           {/* Role selection */}
-          <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700 block">Account Role</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setRole('patient')}
-                className={`py-2.5 rounded-2xl text-sm font-semibold border transition duration-300 ${
-                  role === 'patient'
-                    ? 'bg-red-50 border-red-500 text-red-600'
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                Patient
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('admin')}
-                className={`py-2.5 rounded-2xl text-sm font-semibold border transition duration-300 ${
-                  role === 'admin'
-                    ? 'bg-red-50 border-red-500 text-red-600'
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                Admin
-              </button>
+          {!hideRoleSelection && (
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-slate-700 block">Account Role</label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRole('patient')}
+                  className={`py-2.5 rounded-2xl text-sm font-semibold border transition duration-300 ${
+                    role === 'patient'
+                      ? 'bg-red-50 border-red-500 text-red-600'
+                      : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  Patient
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('admin')}
+                  className={`py-2.5 rounded-2xl text-sm font-semibold border transition duration-300 ${
+                    role === 'admin'
+                      ? 'bg-red-50 border-red-500 text-red-600'
+                      : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  Admin
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Submit Button */}
           <button

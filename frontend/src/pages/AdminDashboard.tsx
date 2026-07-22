@@ -220,45 +220,87 @@ const AdminDashboard = () => {
                 No appointment logs in system.
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[700px] text-left text-sm text-slate-655">
-                  <thead>
-                    <tr className="border-b border-slate-100 text-slate-400 text-xs font-semibold uppercase tracking-wider">
-                      <th className="pb-3 pt-2">Patient</th>
-                      <th className="pb-3 pt-2">Physician</th>
-                      <th className="pb-3 pt-2 text-xs">Scheduled Date</th>
-                      <th className="pb-3 pt-2 text-xs">Reason</th>
-                      <th className="pb-3 pt-2 text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {recentAppointments.map((app) => (
-                      <tr key={app._id} className="hover:bg-slate-50/50 transition duration-150">
-                        <td className="py-3.5 pr-2 font-bold text-slate-800">{app.patient ? app.patient.name : 'Unknown'}</td>
-                        <td className="py-3.5 pr-2">
-                          <div className="font-semibold text-slate-700">Dr. {app.doctor ? app.doctor.name : 'Unknown'}</div>
-                          <div className="text-[10px] text-slate-400">{app.doctor ? app.doctor.department : 'General'}</div>
-                        </td>
-                        <td className="py-3.5 pr-2 text-xs text-slate-500">
-                          {new Date(app.date).toLocaleDateString(undefined, { 
-                            month: 'short', 
-                            day: 'numeric', 
-                            year: 'numeric' 
-                          })}
-                        </td>
-                        <td className="py-3.5 pr-2 text-xs text-slate-500 max-w-[200px] truncate" title={app.reason}>
-                          {app.reason}
-                        </td>
-                        <td className="py-3.5 text-right">
-                          <span className={`inline-flex items-center text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${getStatusStyle(app.status)}`}>
-                            {app.status}
+              <>
+                {/* Mobile View: Card List */}
+                <div className="md:hidden space-y-4">
+                  {recentAppointments.map((app) => (
+                    <div key={app._id} className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-slate-800">{app.patient ? app.patient.name : 'Unknown'}</span>
+                        <span className={`inline-flex items-center text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${getStatusStyle(app.status)}`}>
+                          {app.status}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-2 text-xs text-slate-500">
+                        <div>
+                          <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Physician</span>
+                          <span className="font-semibold text-slate-700">Dr. {app.doctor ? app.doctor.name : 'Unknown'}</span>
+                          <span className="block text-[10px] text-slate-400">{app.doctor ? app.doctor.department : 'General'}</span>
+                        </div>
+                        <div>
+                          <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Scheduled Date</span>
+                          <span className="font-medium text-slate-700">
+                            {new Date(app.date).toLocaleDateString(undefined, { 
+                              month: 'short', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
                           </span>
-                        </td>
+                        </div>
+                      </div>
+
+                      {app.reason && (
+                        <div className="border-t border-slate-200/40 pt-2 text-xs">
+                          <span className="text-[10px] font-semibold text-slate-400 block mb-0.5 uppercase tracking-wider">Reason</span>
+                          <p className="text-slate-600 line-clamp-2" title={app.reason}>{app.reason}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop View: Table */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full text-left text-sm text-slate-655">
+                    <thead>
+                      <tr className="border-b border-slate-100 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                        <th className="pb-3 pt-2">Patient</th>
+                        <th className="pb-3 pt-2">Physician</th>
+                        <th className="pb-3 pt-2 text-xs">Scheduled Date</th>
+                        <th className="pb-3 pt-2 text-xs">Reason</th>
+                        <th className="pb-3 pt-2 text-right">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {recentAppointments.map((app) => (
+                        <tr key={app._id} className="hover:bg-slate-50/50 transition duration-150">
+                          <td className="py-3.5 pr-2 font-bold text-slate-800">{app.patient ? app.patient.name : 'Unknown'}</td>
+                          <td className="py-3.5 pr-2">
+                            <div className="font-semibold text-slate-700">Dr. {app.doctor ? app.doctor.name : 'Unknown'}</div>
+                            <div className="text-[10px] text-slate-400">{app.doctor ? app.doctor.department : 'General'}</div>
+                          </td>
+                          <td className="py-3.5 pr-2 text-xs text-slate-500">
+                            {new Date(app.date).toLocaleDateString(undefined, { 
+                              month: 'short', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
+                          </td>
+                          <td className="py-3.5 pr-2 text-xs text-slate-500 max-w-[200px] truncate" title={app.reason}>
+                            {app.reason}
+                          </td>
+                          <td className="py-3.5 text-right">
+                            <span className={`inline-flex items-center text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${getStatusStyle(app.status)}`}>
+                              {app.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
 

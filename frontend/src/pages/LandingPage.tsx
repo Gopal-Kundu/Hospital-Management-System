@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setHideRoleSelection } from '../redux/authSlice';
 import { 
   Activity, 
   ArrowRight, 
@@ -13,6 +14,7 @@ import {
 
 const LandingPage = () => {
   const { user } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
 
   return (
     <div className="relative min-h-[calc(100vh-128px)] bg-slate-50 text-slate-800 overflow-hidden selection:bg-red-500 selection:text-white flex flex-col justify-center">
@@ -44,13 +46,15 @@ const LandingPage = () => {
             <>
               <Link
                 to="/register"
+                onClick={() => dispatch(setHideRoleSelection(true))}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-2xl transition duration-300 shadow-lg shadow-red-600/20 hover:scale-[1.02]"
               >
                 Book Appointment
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                to="/login"
+                to="/register"
+                onClick={() => dispatch(setHideRoleSelection(false))}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-slate-50 border border-slate-250 text-slate-700 font-bold rounded-2xl transition duration-300 hover:scale-[1.02] shadow-sm"
               >
                 Access Portal
