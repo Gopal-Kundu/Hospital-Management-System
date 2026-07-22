@@ -156,9 +156,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Drawer Overlay */}
-      {isMenuOpen && (
-        <div className="md:hidden mt-4 pt-4 border-t border-slate-100 animate-in fade-in slide-in-from-top-4 duration-200">
-          <div className="flex flex-col gap-2">
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+        isMenuOpen 
+          ? 'max-h-[600px] opacity-100 mt-4 pt-4 border-t border-slate-100' 
+          : 'max-h-0 opacity-0 pointer-events-none'
+      }`}>
+        <div className="flex flex-col gap-2">
             
             {/* User Profile Card for Mobile */}
             {user && (
@@ -270,8 +273,7 @@ const Navbar = () => {
             )}
 
           </div>
-        </div>
-      )}
+      </div>
     </nav>
   );
 };

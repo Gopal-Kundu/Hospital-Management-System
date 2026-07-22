@@ -1,5 +1,6 @@
 {
   "name": "hospital_management_system_frontend",
+  "description": "Frontend for Hospital Management System",
   "private": true,
   "version": "0.0.0",
   "type": "module",
