@@ -17,15 +17,20 @@ Built using the **MERN Stack**, the application follows modern development pract
 
 ## 📸 Screen Previews
 
-### 👤 Patient Experience
-| Patient Dashboard | Appointment Booking | Available Doctors |
-|---|---|---|
-| ![Patient Dashboard](frontend/imgs/patient-dashboard.png) | ![Appointment Booking](frontend/imgs/appointement_booking.png) | ![Available Doctors](frontend/imgs/Available_Doctors.png) |
+### 👤 Patient Dashboard
+![Patient Dashboard](frontend/imgs/patient-dashboard.png)
 
-### 👨‍⚕️ Administrative Control
-| Admin Dashboard | Appointment Management |
-|---|---|
-| ![Admin Dashboard](frontend/imgs/admin__dashboard.png) | ![Appointment Management](frontend/imgs/Admin_apointment_management_section.png) |
+### 📅 Appointment Booking
+![Appointment Booking](frontend/imgs/appointement_booking.png)
+
+### 👨‍⚕️ Available Doctors Selection
+![Available Doctors](frontend/imgs/Available_Doctors.png)
+
+### 📊 Admin Dashboard
+![Admin Dashboard](frontend/imgs/admin__dashboard.png)
+
+### 📋 Admin Appointment Management
+![Appointment Management](frontend/imgs/Admin_apointment_management_section.png)
 
 ---
 
