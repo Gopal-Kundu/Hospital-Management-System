@@ -30,8 +30,6 @@ const sendOtpEmail = async (name, email, otp) => {
   } catch (err) {
     console.error('EmailJS: OTP email send failed:', err.message || err);
   }
-  // Print OTP to server console in development so developers can see it without active keys
-  console.log(`[DEVELOPMENT OTP] Code for ${email} is: ${otp}`);
 };
 
 export const register = async (req, res) => {
@@ -73,8 +71,8 @@ export const register = async (req, res) => {
       otpExpires,
     });
 
-    // Send OTP Email asynchronously
-    sendOtpEmail(user.name, user.email, otp);
+    // Send OTP Email
+    await sendOtpEmail(user.name, user.email, otp);
 
     res.status(201).json({
       success: true,
@@ -180,7 +178,7 @@ export const resendOtp = async (req, res) => {
     await user.save();
 
     // Send new OTP Email
-    sendOtpEmail(user.name, user.email, otp);
+    await sendOtpEmail(user.name, user.email, otp);
 
     res.status(200).json({
       success: true,
@@ -217,7 +215,7 @@ export const login = async (req, res) => {
       user.otp = otp;
       user.otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
       await user.save();
-      sendOtpEmail(user.name, user.email, otp);
+      await sendOtpEmail(user.name, user.email, otp);
 
       return res.status(403).json({
         success: false,

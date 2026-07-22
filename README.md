@@ -213,12 +213,12 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-EMAILJS_SERVICE_ID=service_j185gcr
-EMAILJS_TEMPLATE_ID=template_bh6y4ah
-EMAILJS_PUBLIC_KEY=55GjyR5HxwazD17Dl
-VITE_EMAILJS_SERVICE_ID=service_j185gcr
-VITE_EMAILJS_TEMPLATE_ID=template_bh6y4ah
-VITE_EMAILJS_PUBLIC_KEY=55GjyR5HxwazD17Dl
+EMAILJS_SERVICE_ID=your_emailjs_service_id
+EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 ```
 
 Start Backend
