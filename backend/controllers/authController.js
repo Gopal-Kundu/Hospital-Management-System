@@ -124,11 +124,13 @@ export const verifyOtp = async (req, res) => {
       { expiresIn: '30d' }
     );
 
+    const isProduction = process.env.NODE_ENV === 'production' || !req.get('host').includes('localhost');
+
     const cookieOptions = {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
     };
 
     res
@@ -231,11 +233,13 @@ export const login = async (req, res) => {
       { expiresIn: '30d' }
     );
 
+    const isProduction = process.env.NODE_ENV === 'production' || !req.get('host').includes('localhost');
+
     const cookieOptions = {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
     };
 
     res
@@ -259,10 +263,13 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production' || !req.get('host').includes('localhost');
+
   res.cookie('token', '', {
     expires: new Date(0), // Instantly expired
     httpOnly: true,
-    sameSite: 'strict',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
   });
 
   res.status(200).json({ success: true, message: 'Logged out successfully' });
