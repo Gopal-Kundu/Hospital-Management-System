@@ -23,6 +23,7 @@ const sendOtpEmail = async (name, email, otp) => {
         user_name: name,
         email: email,
         otp: otp,
+        project_name: 'Hospital Management System',
       },
       options
     );
